@@ -57,7 +57,13 @@ The program has 3 parameters:
 
 Here is the example of the syntax:
 
-`python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True`
+```
+python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True
+OR
+python motif_vis.py
+
+# both of this command will run the example file, if you have your own data, remove filename in -i parameter
+```
 
 <br/>
 
