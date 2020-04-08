@@ -262,12 +262,12 @@ def get_figure(data, indices):
 	# getting the data specific to selected species
 	base_values_ = [fig_base_values[i] for i in indices]
 	nucleotide_bases_ = [fig_nucleotide_bases[i] for i in indices]
-	nucleotide_bases_ = nucleotide_bases_[::-1]
+	nucleotide_bases_ = nucleotide_bases_
 	nucleotide_bases2 = [item for sublist in nucleotide_bases_ for item in sublist]
 	hover_values_ = [fig_hover_values[i] for i in indices]
 	seq_names_ = [sp_names[i] for i in indices]
 	#print(seq_names_)
-	y = [[i]*seq_len for i in seq_names_[::-1]]
+	y = [[i]*seq_len for i in seq_names_]
 	y = [item for sublist in y for item in sublist]
 	#logger.info('y\n{}', y)
 	#print('-----------')
