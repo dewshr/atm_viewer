@@ -40,6 +40,8 @@ The command will look like this:
 
 The multi species alignment files can be downloaded from [here](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/multiz46way/maf/)
 
+> **_NOTE:_** Currently the input file should be the alignment over only one region, if the maf file generated is based on multiple regions, it will result to incorrect result
+
 <br/>
 
 <br/>
