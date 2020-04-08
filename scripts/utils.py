@@ -79,7 +79,16 @@ def extract_seq_from_maf(maf_file, dir):
 	
 	fimo_input.close()
 
-
+################### this function will be called if the file is in clustal alignment format ##########
+@logger.catch
+def extract_seq_from_clustal(clustal_file, dir):
+	align = AlignIO.read(clustal_file, 'clustal')
+	fimo_input = open(os.path.join(dir, 'fimo_input.fa'),'w')
+	with open(os.path.join(dir ,'temp_aln.fa'),'w') as f:
+		for rec in align:
+			fimo_input.write('>{}\n{}\n'.format(str(rec.id), str(rec.seq).replace('-','')))
+			f.write('>{}\n{}\n'.format(str(rec.id),str(rec.seq)))
+	fimo_input.close()
 
 
 

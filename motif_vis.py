@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', default=None, help='multiple alignment format file for visualization')
 parser.add_argument('-d','--dir', default='motif_vis_temp_files', help='folder name for the temporary files generated during the process')
 parser.add_argument('-l','--load', default = True, help='automatically opens browser if value is true')
+parser.add_argument('-f','--format', default='maf', choices=['maf','clustal'],help='format of the alignment file')
 
 args = parser.parse_args()
 
@@ -39,7 +40,11 @@ if args.input == None:
 	#parser.print_help()
 	#sys.exit()
 else:
-	extract_seq_from_maf(args.input, args.dir) # processing the maf file to combine alignment blocks
+	if args.format=='maf':
+		extract_seq_from_maf(args.input, args.dir) # processing the maf file to combine alignment blocks
+	else:
+		extract_seq_from_clustal(args.input, args.dir)
+
 
 
 
