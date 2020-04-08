@@ -1,3 +1,9 @@
+#######################################################################
+#Author: Dewan Shrestha                                               #
+#PI    : Yong Cheng (yong.cheng@stjude.org)                           #              
+#Email : dewshrs@gmail.com / dshrest2@uthsc.edu / dshresth@stjude.org #
+#######################################################################
+
 import sys
 import os
 script_path = os.path.dirname(os.path.realpath(__file__))

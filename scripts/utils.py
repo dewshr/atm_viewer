@@ -1,3 +1,8 @@
+######################################################################
+#Author: Dewan Shrestha                                              #
+#PI    : Yong Cheng (yong.cheng@stjude.org)                          #
+#Email: dewshrs@gmail.com / dshrest2@uthsc.edu / dshresth@stjude.org #
+######################################################################
 
 import numpy as np
 import os
