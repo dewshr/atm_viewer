@@ -1,0 +1,17 @@
+name: turnover
+channels:
+ - bioconda
+ - plotly
+ - conda-forge
+ - defaults
+dependencies:
+ - python=3.7.3
+ - pip=19.3.1
+ - numpy=1.17.*
+ - biopython=1.76
+ - plotly=4.5.4
+ - meme=5.1.*
+ - dash=0.41.0
+ - dash-bootstrap-components=0.6.3
+ - pip:
+   - loguru
