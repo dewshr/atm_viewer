@@ -59,16 +59,21 @@ The program has 3 parameters:
 <br/>
 
 - **load**  : default value is True, which means it it automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar
+<br/>
+
+- **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal format, you can specify by passing parameter 'clustal' as `-f clustal`
 
 Here is the example of the syntax:
 
 ```
-python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True
+python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True -f maf
 OR
 python motif_vis.py
 
 # both of this command will run the example file, if you have your own data, remove filename in -i parameter
 ```
+
+> **_NOTE:_** make sure the clustal alignment file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. If the species name is missing, the result will be empty. Example file is provided in example folder.
 
 <br/>
 
