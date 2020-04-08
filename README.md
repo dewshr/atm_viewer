@@ -66,6 +66,7 @@ Here is the example of the syntax:
 ## 4) Tutorial Walkthrough
 
 After the program is loaded in the brower, this is what it would look like
+
 ![initial view](data/images/initial_view.png)
 
 By default it has CTCF as selected TF, and human, mouse, chimp and rhesus macaque as species.On the left box of TF selected, it shows what TF has been selected by user, and on right box of TF found, after the user clicks submit button, it will show what TF is found. The grey box on the bottom lists all the species that was found in your input file and the information associated with it.
@@ -74,6 +75,7 @@ By default it has CTCF as selected TF, and human, mouse, chimp and rhesus macaqu
 
 - ### Selecting Options
 You can click on the box and it will show different options, you can scroll through the options or just type it, and the TF matching your search will appear. Currently, the user can search through 1,777 non-redundant motifs taken from [JASPAR database 2020](http://jaspar.genereg.net/downloads/) which includes the vertebrates and insects.
+
 ![options](data/images/options.png)
 
 <br/>
