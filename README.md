@@ -13,6 +13,9 @@ User will need to have installed conda. You can download either of it from the l
 - [anaconda](https://www.anaconda.com/distribution/)
 - [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
+> **_NOTE:_** Choose python 3.7 version
+
+
 <br/>
 
 <br/>
