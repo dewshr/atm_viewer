@@ -70,7 +70,7 @@ python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True -f ma
 OR
 python motif_vis.py
 
-# both of this command will run the example file, if you have your own data, remove filename in -i parameter
+# both of this command will run the example file, if you have your own data, change filename in -i parameter
 ```
 
 > **_NOTE:_** make sure the clustal alignment file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. If the species name is missing, the result will be empty. Example file is provided in example folder.
