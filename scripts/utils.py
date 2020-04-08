@@ -249,7 +249,7 @@ def get_markdown(list_, fimo=True):
 @logger.catch
 def get_figure(data, indices):
 	#[{'base_values':base_values}, {'hover_values':hover_values},{'nucleotide_bases':nucleotide_bases},{'sp_names':sp_names}, {'colorscale':colorscale},{'legend_col':legend_col}]
-	
+	indices= indices[::-1]
 	fig_base_values = data[0]['base_values']
 	fig_hover_values = data[1]['hover_values']
 	fig_nucleotide_bases = data[2]['nucleotide_bases']
