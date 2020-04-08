@@ -1,0 +1,14 @@
+CLUSTAL O(1.2.4) multiple sequence alignment
+
+
+hg19.chr1.5681240:5681407.{'+'}         TGTCAAAGCAAGGTGTCAAAGCAAGGGGAGAGGGGGCAGCCTTTGGGAGCTGCACTCCCT	60
+rheMac2.chr1.8618136:8618290.{'+'}      TGGCAAAGCAAGCTGGCAAAGCAAGCGGAGAGAGGGCAGCCTTTGGGAGCTGCACTCCCT	60
+                                        ** ********* ** ********* ****** ***************************
+
+hg19.chr1.5681240:5681407.{'+'}         CTGCTGGGCCACCTAGGGAAATTCAGGAAAGGCCCTCCCACCTCCAACCAACCTCCAACA	120
+rheMac2.chr1.8618136:8618290.{'+'}      CTGCTGGGCCACCTAGGGAAATTCAGGAAGGGCCCTCCCACCTCCAATCCCAAATG----	116
+                                        ***************************** ***************** *           
+
+hg19.chr1.5681240:5681407.{'+'}         ATGAAAATTCTCTTGCGATTTTCAAGACTCTCAATTAGAACTGAATTTCCTACTTCTAGC	180
+rheMac2.chr1.8618136:8618290.{'+'}      ---AAAACTCTCTTGTGATTTTCAAGACTTA------GAACTGAATTTCCTACTTCTAGC	167
+                                           **** ******* *************        ***********************
