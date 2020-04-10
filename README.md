@@ -150,4 +150,4 @@ If there is complete overlap, then combined legend will be shown in the figure b
 ## 6) Transcription Factor Search Limit
 In the program, you can select as many TF as you want, but the color labelling is set to 14 unique TFs, so that each TF has a distinct color. For example, if you select 20 TFs and there is presence of no more than 14 unique TFs in your sequence it will work, but if found number of TFs is more than 14, then program is give an error.
 
-> **_NOTE:_** Also, if there are multiple TF overlap at same region, it is recommended to view select maximum of 3 TFs at that region, otherwise, the color representation will differ due to increased overlapping. It will be best if you view two overlapping TFs at a time
+> **_NOTE:_** Also, if there are multiple TF overlap at same region, it is recommended to select maximum of 3 TFs at that region (in total it can be more, but limit the TF in overlapping region), otherwise, the color representation will differ due to increased overlapping. It will be best if you view two overlapping TFs at a time
