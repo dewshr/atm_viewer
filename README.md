@@ -110,16 +110,20 @@ If you click the submit button, the information below will be changed if the pro
 
 If the motifs overlap with each other then color of one motif overlays with another, in that case, it might be difficult to see which part of the sequence is overlapped. So, for that you can hover your mouse over the sequence, and it will show the name of both motifs if there is overlapping region.
 - ### Example 1 (Partial overlap)
-In the figure below you can see, the mouse is over the overlapping sequence which is slitly dimmer and it is showing the names for both TF, you move the mouse towards the end of colored sequence on either side, it will show either CTCF or THAP11
+In the figure below you can see, the mouse is over the overlapping sequence which is slitly dimmer and it is showing the names for both TF, you move the mouse towards the end of colored sequence on either side, it will show either CTCF or THAP11.
 ![example1](data/images/example1.png)
 
 <br/>
 
-In this figure, Zic2 completely overlaps with CTCF, and the region unique to CTCF is shown by greenish color and the overap by bluish color as in label. Hovering the mouse over sequence will also show the names of overlapping TF.
+<br/>
+
+In the figure below, Zic2 completely overlaps with CTCF, and the region unique to CTCF is shown by greenish color and the overap by bluish color as in label. Hovering the mouse over sequence will also show the names of overlapping TF.
 ![example2](data/images/example2.png)
 <br/>
 
-In this figure, there is overlap between three TFs (THAP11, CTCF and Zic2). Here is CTCF is either overlapped with THAP11 or wih Zic2 or both, there is no unique region for CTCF that is not overlapped. So, although in the label, CTCF is represented as green color, the color is not reprsented. And you can see three different color patterns over there each representing THAP11, THAP11+CTCF, THAP11+CTCF+Zic2 and CTCF+Zic2 from left to right in order.
+<br/>
+
+In this figure below, there is overlap between three TFs (THAP11, CTCF and Zic2). Here is CTCF is either overlapped with THAP11 or wih Zic2 or both, there is no unique region for CTCF that is not overlapped. So, although in the label, CTCF is represented as green color, the color is not reprsented. And you can see three different color patterns over there each representing THAP11, THAP11+CTCF, THAP11+CTCF+Zic2 and CTCF+Zic2 from left to right in order.
 ![example3](data/images/example3.png)
 <br/>
 
@@ -128,3 +132,11 @@ In this figure, there is overlap between three TFs (THAP11, CTCF and Zic2). Here
 - ### Example 2 (Complete Overlap)
 If there is complete overlap, then combined legend will be shown in the figure bar as shown below for TBX6 and TBX21
 ![example4](data/images/example4.png)
+
+
+<br/>
+
+## 6) Transcription Factor Search Limit
+In the program, you can select as many TF as you want, but the color labelling is set to 14 unique TFs, so that each TF has a distinct color. For example, if you select 20 TFs and there is presence of no more than 14 unique TFs in your sequence it will work, but if found number of TFs is more than 14, then program is give an error.
+
+> **_NOTE:_** Also, if there are multiple TF overlap at same region, it is recommended to view select maximum of 3 TFs at that region, otherwise, the color representation will differ due to increased overlapping. It will be best if you view two overlapping TFs at a time
