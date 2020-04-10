@@ -7,6 +7,17 @@ This program is mainly designed to visualize the motif turnover events provided 
 
 <br/>
 
+# Contents
+- [Getting Started](#1-getting-started)
+- [Prerequisites](#2-prerequisites)
+- [Running the program](#3-running-the-program)
+- [Tutorial Walkthrough](#4-tutorial-walkthrough)
+- [Cases for overlapping motifs](#5-cases-for-overlapping-motifs)
+- [Transcription Factor Search Limit](#6-transcription-factor-search-limit)
+
+<br/>
+
+
 ## 1) Getting Started
 
 User will need to have installed conda. You can download either of it from the link below:
