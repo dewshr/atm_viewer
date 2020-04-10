@@ -1,7 +1,7 @@
 # Motif TurnOver Visualization
 
 ------
-This program can be used to visualize the motifs provided the **Multiple Alignment Format(MAF)** file. It will extract the sequences from block alignments from all the species, generating a single line sequence file which will be used for the visualization. It will also generate another file, which will be used to run fimo from meme to scan for the transcription factors (TF) selected by user. And based on the position of found motif, the sequences will be highlighted by specific color for specific TF. The user will have flexibility to choose how many TFs you want to find and how many species you want to view at a time. The program will also support the alignment file in **clustal format**.
+This program is mainly designed to visualize the motif turnover events provided the **Multiple Alignment Format(MAF)** file. It will extract the sequences from block alignments from all the species, generating a single line sequence file which will be used for the visualization. It will also generate another file, which will be used to run fimo from meme to scan for the transcription factors (TF) selected by user. And based on the position of found motif, the sequences will be highlighted by specific color for specific TF. The user will have flexibility to choose how many TFs you want to find and how many species you want to view at a time. The program will also support the alignment file in **clustal format** and **fasta format**. If **fasta format**, make sure there is only one fasta sequence in the file. You can provide multiple fasta sequence in one file, but the length of sequence has to be the same.
 
 > **_NOTE:_** If too many TFs are selected, it might be over-crowded and one TF may be overlapped by another, showing only the top motif
 
@@ -61,7 +61,7 @@ The program has 3 parameters:
 - **load**  : default value is True, which means it it automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar
 <br/>
 
-- **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal format, you can specify by passing parameter 'clustal' as `-f clustal`
+- **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal or fasta format, you can specify by passing parameter 'clustal' as `-f clustal` or 'fasta' as `-f fasta`
 
 Here is the example of the syntax:
 
@@ -73,7 +73,7 @@ python motif_vis.py
 # both of this command will run the example file, if you have your own data, change filename in -i parameter
 ```
 
-> **_NOTE:_** make sure the clustal alignment file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. If the species name is missing, the result will be empty. Example file is provided in example folder.
+> **_NOTE:_** make sure the clustal alignment file as well as fasta file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. If the species name is missing, the result will be empty. Example file is provided in example folder.
 
 <br/>
 
