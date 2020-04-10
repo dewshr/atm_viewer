@@ -25,9 +25,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', default=None, help='multiple alignment format file for visualization')
 parser.add_argument('-d','--dir', default='motif_vis_temp_files', help='folder name for the temporary files generated during the process')
 parser.add_argument('-l','--load', default = True, help='automatically opens browser if value is true')
-parser.add_argument('-f','--format', default='maf', choices=['maf','clustal'],help='format of the alignment file')
+parser.add_argument('-f','--format', default='maf', choices=['maf','clustal', 'fasta'],help='format of the alignment file')
 
 args = parser.parse_args()
+
+#creating log file
+logger_path = os.path.abspath(args.dir)
+logger.add(logger_path+'/visualization_{time}.log', rotation='10 MB')
 
 #if output directory is not present, creates a new directory
 if not os.path.exists(args.dir):
@@ -35,22 +39,29 @@ if not os.path.exists(args.dir):
 
 
 if args.input == None:
-    logger.info('using default example')
-    extract_seq_from_maf(script_path+'/example/example.maf', args.dir)
+	logger.info('using default example')
+	extract_seq_from_maf(script_path+'/example/example.maf', args.dir)
+	aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta')
 	#parser.print_help()
 	#sys.exit()
 else:
 	if args.format=='maf':
 		extract_seq_from_maf(args.input, args.dir) # processing the maf file to combine alignment blocks
-	else:
+		aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta')
+	elif args.format == 'clustal':
 		extract_seq_from_clustal(args.input, args.dir)
+		aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta')
+	elif args.format == 'fasta':
+		aln = AlignIO.read(args.input,'fasta')
+		with open(os.path.join(args.dir ,'fimo_input.fa'),'w') as f:
+			file_ = open(args.input).read().replace('-','')
+			f.write(file_)
+	else:
+		logger.info('the format is not supported, please use the supported format file')
+		sys.exit()
 
 
-
-
-
-logger_path = os.path.abspath(args.dir)
-logger.add(logger_path+'/visualization_{time}.log', rotation='10 MB')
+			
 
 #creating lists for tf and species for dash dropdown options
 motif_options = [{'label':'{} ({})'.format(jasper_dict[key]['motif_name'],jasper_dict[key]['species'] ), 'value':key} for key,value in jasper_dict.items()]
@@ -60,7 +71,7 @@ logger.info('options created for the buttons')
 
 
 #extracting sequences and ids from the alignment file
-aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta') 
+#aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta') 
 seqs, seq_ids, nucleotide_bases, seq_names, sp_names  = [], [], [], [], []
 
 for rec in aln:
