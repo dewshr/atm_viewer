@@ -20,7 +20,7 @@ from loguru import logger
 data_path = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 #print(script_path)
 # list of color assuming the user will select maximum of 14 tfs at time
-color_list=['whitesmoke','tomato','limegreen','teal','lightpink','steelblue','darkmagenta','mediumslateblue','darkred','forestgreen','goldenrod','mediumblue','orange','dimgray','darkturquoise']
+color_list=['whitesmoke','limegreen','tomato','teal','lightpink','steelblue','darkmagenta','orange','mediumslateblue','darkred','forestgreen','goldenrod','mediumblue','dimgray','darkturquoise']
 
 
 #header of pwm matrix for meme format
@@ -160,19 +160,29 @@ def motif_color(nucleotide_bases,motif_details, base_values, hover_data):
 	base_color_values = [i.copy() for i in base_values.copy()]
 	for n in range(len(nucleotide_bases)):
 		#print(n)
+		color_tracker = {}
 		for motif,val in motif_details.items():
 			iter = re.finditer(r"{}".format(motif), ''.join(nucleotide_bases[n])) # searching for the motif
 			indices = [[m.start(0),m.end(0)] for m in iter] # stores indices for the searched motif if found
 			#print(indices)
 			for index in indices:
 				for i in range(index[0], index[1]):
-					base_color_values[n][i]= val['mval'] #assigning the value associated with respective TF
+					#base_color_values[n][i]= val['mval'] #assigning the value associated with respective TF
 					#hover_values[n][i] = val['mname']
 					if hover_values[n][i] == '':
-						#base_color_values[n][i]= val['mval']
+						base_color_values[n][i]= val['mval']
 						hover_values[n][i] = val['mname'] # assigning the motif name for annotation in plot
+						color_tracker[i] =1
 					else:
-						#base_color_values[n][i]= (base_color_values[n][i]+val['mval'])/2.0
+						r = color_tracker[i] * 0.04
+						if color_tracker[i] ==3:
+							r = (2 * 0.04) + 0.02
+						color_tracker[i] = color_tracker[i] + 1
+						if val['mval'] > base_color_values[n][i]:
+							base_color_values[n][i]= val['mval'] - r
+						else:
+							base_color_values[n][i]= base_color_values[n][i] - r
+							
 						hover_values[n][i] = hover_values[n][i] + ' : '+val['mname'] # combining the name if two motifs are found on same position
 	#print(base_color_values[0])
 	return base_color_values, hover_values
