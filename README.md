@@ -73,7 +73,7 @@ python motif_vis.py
 # both of this command will run the example file, if you have your own data, change filename in -i parameter
 ```
 
-> **_NOTE:_** make sure the clustal alignment file as well as fasta file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. If the species name is missing, the result will be empty. Example file is provided in example folder.
+> **_NOTE:_** make sure the fasta file has species name above the aligned sequence such as hg for human, mm for mouse, pantro for chimp etc. as shown in the example file. If the species name is missing, the result will be empty. Example file is provided in example folder. Also make sure clustal file also has the species name.
 
 <br/>
 
