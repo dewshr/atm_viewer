@@ -304,7 +304,7 @@ body = html.Div(dbc.Row([
 				dbc.Col(dropdown, width=4),
 				dbc.Col(tree, width=3),
 				dbc.Col(heatmap_legend, width=5)
-], no_gutters=True))
+]))
 
 graph = html.Div(dbc.Row([
 				dbc.Col(description, width=4),
