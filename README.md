@@ -1,5 +1,6 @@
 # Motif TurnOver Visualization
-
+------
+> **_NOTE:_** Everything is resized according to screen size, better visualization in larger screen.
 ------
 This program is mainly designed to visualize the motif turnover events provided the **Multiple Alignment Format(MAF)** file. It will extract the sequences from block alignments from all the species, generating a single line sequence file which will be used for the visualization. It will also generate another file, which will be used to run fimo from meme to scan for the transcription factors (TF) selected by user. And based on the position of found motif, the sequences will be highlighted by specific color for specific TF. The user will have flexibility to choose how many TFs you want to find and how many species you want to view at a time. The program will also support the alignment file in **clustal format** and **fasta format**. If **fasta format**, make sure there is only one fasta sequence in the file. You can provide multiple fasta sequence in one file, but the length of sequence has to be the same.
 
@@ -108,7 +109,7 @@ You can click on the box and it will show different options, you can scroll thro
 <br/>
 
 - ### Visualizing the motif
-If you click the submit button, the information below will be changed if the program runs successfully and `Fimo run completed` message will be show, and the plot will be shown on the right side. You can slide the slider to move to the region of your interest. Above the figure there is an option to download or zoom in or zoom out.
+If you click the submit button, the information below will be changed if the program runs successfully and `Fimo run completed` message will be show, and the plot will be shown on the right side. There are 3 plots on the right side, first plot on top shows overview of presence or absence of TF in selected species, red means present and grey means absent. The second plot gives bird's-eye view of whole alignment. And the third plot on the bottom, gives the more detail visualization regarding the alignment and respective TFs. You can slide the slider to move to the region of your interest. Above the figure there is an option to download or zoom in or zoom out.
 
 ![submit](data/images/submit.png)
 
@@ -149,5 +150,9 @@ If there is complete overlap, then combined legend will be shown in the figure b
 
 ## 6) Transcription Factor Search Limit
 In the program, you can select as many TF as you want, but the color labelling is set to 14 unique TFs, so that each TF has a distinct color. For example, if you select 20 TFs and there is presence of no more than 14 unique TFs in your sequence it will work, but if found number of TFs is more than 14, then program is give an error.
+```
+These are some of the TFs present in example.maf:
+CTCF, ALX3, THAP11, Zic2, TBX6, TBX21, TBX3, RELA, RELB
+```
 
 > **_NOTE:_** Also, if there are multiple TF overlap at same region, it is recommended to select maximum of 3 TFs at that region (in total it can be more, but limit the TF in overlapping region), otherwise, the color representation will differ due to increased overlapping. It will be best if you view two overlapping TFs at a time
