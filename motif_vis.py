@@ -192,10 +192,20 @@ heatmap_legend = html.Div([
 										config={'toImageButtonOptions':{'format':'svg'},
 											   'displayModeBar':True}
 										 )
-							], style={'paddingRight':10})
+							], style={'paddingRight':10,
+										'paddingLeft':0,
+										'marginLeft':0
+									})
 	
 
-
+tree = html.Div([
+			dcc.Graph(id='tree',
+						config={'displayModeBar':False}
+								)
+	],style={
+			'paddingRight':0,
+			'marginRight':0
+	})
 
 ###################################### [motif informations: seleected vs found] and [species] ############
 tf_selected =  [
@@ -245,6 +255,12 @@ cards = html.Div(
 			],
 			className="mb-4"
 		),
+		#dbc.Row(
+		#	[
+		#		dbc.Col(dcc.Graph(id='tree'))
+		#	],
+		#	className='mb-4'
+		#),
 		dbc.Row(
 			[
 				dbc.Col(dbc.Card(species_details, color="secondary", inverse=True)),
@@ -268,7 +284,9 @@ main_figure = html.Div([
 											'displayModeBar':True
 											}
 										 ),
-							
+						#dcc.Graph(id='tree',
+						#			config={'displayModeBar':False}
+						#		),
 										],style={
 										'paddingRight':10,
 										'marginBottom':30
@@ -284,8 +302,9 @@ end =dbc.Row(dbc.Col(html.P('.',style={'marginTop':10,
 ################################################### layout ########################################
 body = html.Div(dbc.Row([
 				dbc.Col(dropdown, width=4),
-				dbc.Col(heatmap_legend, width=8)
-]))
+				dbc.Col(tree, width=3),
+				dbc.Col(heatmap_legend, width=5)
+], no_gutters=True))
 
 graph = html.Div(dbc.Row([
 				dbc.Col(description, width=4),
@@ -321,7 +340,7 @@ def tf_selected(n_clicks, value):
 			sys.exit(1)
 		else:
 			logger.info('processing fimo')
-			fimo_ids, fimo_list = process_fimo(fimo_file)
+			fimo_ids, fimo_list, motif_species = process_fimo(fimo_file)
 			
 			logger.info('fimo_ids\n{}',fimo_ids)
 			logger.info('fimolist\n{}', fimo_list)
@@ -335,7 +354,7 @@ def tf_selected(n_clicks, value):
 			#logger.info('\nhover_data \n {}', hover_data)
 			#logger.info('colorscale\n{}',colorscale)
 			#logger.info('legend_col\n{}', legend_col)
-			data = [{'base_values':base_color_values}, {'hover_values':hover_values},{'nucleotide_bases':nucleotide_bases},{'sp_names':sp_names}, {'colorscale':colorscale},{'legend_col':legend_col}]
+			data = [{'base_values':base_color_values}, {'hover_values':hover_values},{'nucleotide_bases':nucleotide_bases},{'sp_names':sp_names}, {'colorscale':colorscale},{'legend_col':legend_col}, {'motif_species':motif_species}]
 	else:
 		tf_found_ =[None]
 		alert = dbc.Alert("Press submit to run fimo", color="info")
@@ -345,7 +364,8 @@ def tf_selected(n_clicks, value):
 	return tf_selected, tf_found_ , data, alert
 
 @app.callback([Output('motif_plot','figure'),
-			   Output('figure_bar','figure')
+			   Output('figure_bar','figure'),
+			   Output('tree', 'figure')
 			  ],
 			 [Input('species_id','value'),
 			 Input('memory-output','data')])

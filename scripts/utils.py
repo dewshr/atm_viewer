@@ -130,11 +130,15 @@ def process_fimo(fimo_file):
 	logger.info('generating fimoids and fimolist')
 	fimo_ids = []
 	fimo_list = []
+	motif_species= {} #stores TF and species which has that TF
 	file_ = open(fimo_file)
 	
 	for line in file_:
 		if line.startswith('M'):
 			data = line.split()
+			if data[1] not in motif_species.keys():
+				motif_species[data[1]] = data[2]
+			motif_species[data[1]] = motif_species[data[1]] + data[2]
 			fimo_ids.append(data[0])
 			if data[5] == '-':
 				motif_seq = str(Seq(data[-1]).reverse_complement())
@@ -147,7 +151,7 @@ def process_fimo(fimo_file):
 	fimo_list = [list(item) for item in set(tuple(row) for row in fimo_list)]
 	fimo_list.sort( key=lambda l: (len(l[0]),l[1]), reverse=True)
 
-	return fimo_ids, fimo_list
+	return fimo_ids, fimo_list, motif_species
 
 
 
@@ -159,20 +163,25 @@ def motif_color(nucleotide_bases,motif_details, base_values, hover_data):
 	hover_values = [i.copy() for i in hover_data.copy()]
 	base_color_values = [i.copy() for i in base_values.copy()]
 	for n in range(len(nucleotide_bases)):
-		#print(n)
+		print(n)
 		color_tracker = {}
 		for motif,val in motif_details.items():
 			iter = re.finditer(r"{}".format(motif), ''.join(nucleotide_bases[n])) # searching for the motif
 			indices = [[m.start(0),m.end(0)] for m in iter] # stores indices for the searched motif if found
-			#print(indices)
+			#logger.info(val['mname'])
+			#logger.info(indices)
 			for index in indices:
 				for i in range(index[0], index[1]):
+					#logger.info(i)
+					#logger.info('changing values now')
 					#base_color_values[n][i]= val['mval'] #assigning the value associated with respective TF
 					#hover_values[n][i] = val['mname']
 					if hover_values[n][i] == '':
+						#logger.info(hover_values[n][i])
 						base_color_values[n][i]= val['mval']
 						hover_values[n][i] = val['mname'] # assigning the motif name for annotation in plot
 						color_tracker[i] =1
+						#logger.info(hover_values[n][i])
 					else:
 						r = color_tracker[i] * 0.04
 						if color_tracker[i] ==3:
@@ -184,7 +193,8 @@ def motif_color(nucleotide_bases,motif_details, base_values, hover_data):
 							base_color_values[n][i]= base_color_values[n][i] - r
 							
 						hover_values[n][i] = hover_values[n][i] + ' : '+val['mname'] # combining the name if two motifs are found on same position
-	#print(base_color_values[0])
+	#logger.info(base_color_values)
+	#logger.info(hover_values[0])
 	return base_color_values, hover_values
 
 
@@ -221,7 +231,9 @@ def get_intermediate_data(fimo_ids, fimo_list, base_values, hover_data, nucleoti
 	else:
 		val = 1.0/(len(fimo_ids))
 		if len(fimo_ids) ==1:
-			val_list=[1.0]      
+			val_list=[1.0]
+		elif len(fimo_ids) == 2:
+			val_list= [0.45,1]
 		else:
 			val_list = np.arange(val,1.01,val).round(decimals=2)
 
@@ -265,9 +277,62 @@ def get_markdown(list_, fimo=True):
 		return text
 
 
-		
+
+####################### convert scientific name to common name for species ##################
+@logger.catch
+def get_key(val): 
+    for key, value in species_dict.items(): 
+         if val == value: 
+             return key 	
    
 	
+
+############################# getting overall view for the found TF and selected species #####################
+#sp_names seq_names_ get_key(value)
+@logger.catch
+def tree_diagram(seq_names_, motif_species, sp__):
+	t=0
+	#sp__ = [get_key(x) for x in seq_names_]
+	lp = len(sp__)
+	tree = go.Figure()
+	annotations=[]
+	for key, value in motif_species.items():
+		x=[t]*lp
+		y_val= np.arange(0, lp, 1)
+		color=['tomato' if x in value.lower() else 'grey' for x in sp__]
+		a1 = dict(x=t,y=y_val[-1]+1,xref='x',yref='y',
+            text= key,#'<font size="10"><b>'+key+'</b></font>',
+            showarrow=False,
+            align='center',
+            textangle=-90,
+            font=dict(family='Courier New',
+            size=15)
+            )
+		annotations.append(a1)
+		tree.add_trace(go.Scatter(x=x, y=y_val, 
+                        mode='markers',
+                        hoverinfo='none',
+                        marker=dict(size=15,
+                                color=color   
+                                ))
+					)
+
+		t=t+1
+	#return tree
+
+	tree.update_layout(
+            autosize=True,
+            showlegend=False,
+            annotations=annotations,
+            #width=len(motif_species)*100+100,
+            #height= (lp__*60) +50,
+            plot_bgcolor='white',
+            yaxis={'ticktext':seq_names_,'tickvals':y_val},
+            xaxis ={'showticklabels':False}
+			)
+
+	return tree
+
 
 ######################################### generating alignment plot and figure bar with legend ########################
 @logger.catch
@@ -280,9 +345,15 @@ def get_figure(data, indices):
 	sp_names = data[3]['sp_names']
 	colorscale = data[4]['colorscale']
 	legend_col = data[5]['legend_col']
+	motif_species = data[6]['motif_species']
 
 	seq_len = len(fig_nucleotide_bases[0])
 
+
+	logger.info(motif_species)
+	logger.info(legend_col)
+	logger.info('colorscale')
+	logger.info(colorscale)
 	# getting the data specific to selected species
 	base_values_ = [fig_base_values[i] for i in indices]
 	nucleotide_bases_ = [fig_nucleotide_bases[i] for i in indices]
@@ -290,21 +361,47 @@ def get_figure(data, indices):
 	nucleotide_bases2 = [item for sublist in nucleotide_bases_ for item in sublist]
 	hover_values_ = [fig_hover_values[i] for i in indices]
 	seq_names_ = [sp_names[i] for i in indices]
-	#print(seq_names_)
+	logger.info(seq_names_)
+
 	y = [[i]*seq_len for i in seq_names_]
 	y = [item for sublist in y for item in sublist]
+
+
+	sp__ = [get_key(x) for x in seq_names_]
+	legend_col_ =[]
+	for l in legend_col:
+		tf= l[0]
+		for s in sp__:
+			try:
+				if s in motif_species[tf].lower():
+					legend_col_.append(l)
+					break
+			except:
+				if s in motif_species[tf.split(' : ')[0]].lower(): # if multiple TF has same name and same motif
+					legend_col_.append(l)
+					break
+	#temp = [[x[0], x[1]] for x in legend_col_]
+	#temp_single = [item for sublist in temp for item in sublist]
+	#colorscale_ = [[0, 'whitesmoke']] + [x for x in colorscale if x[1] in temp_single]
+
+	#logger.info(motif_species)
+	logger.info('updated legend_col_')
+	logger.info(legend_col_)
+	#logger.info('colorscale_')
+	#logger.info(colorscale_)
+	
 	#logger.info('y\n{}', y)
 	#print('-----------')
-	#logger.info('base_values_seleceted species:\n{}',base_values_[::-1])	
+	#logger.info('base_values_seleceted species:\n{}',base_values_)	
 	#print('-----------')
-	logger.info('colorscale inside get_figure {}',colorscale)
+	#logger.info('colorscale inside get_figure {}',colorscale)
 	#print('-----------')
 	#logger.info('hover_values_seleceted species:\n{}',hover_values_[::-1])
 	#logger.info('hover_values_seleceted species:\n{}',nucleotide_bases_)
 	#logger.info('hover_values_seleceted species:\n{}',nucleotide_bases2)
 
 	trace = dict(type='heatmap', z=base_values_, colorscale = colorscale, 
-			 showscale=False, text=hover_values_, hoverinfo='text'
+			 showscale=False, text=hover_values_, hoverinfo='text',zmin=0, zmax=1
 			)
 	data=[trace] # generating color based on the values
 	data.append({'type': 'scattergl',
@@ -333,7 +430,7 @@ def get_figure(data, indices):
 	########################################## FIGURE BAR ##################################
 	figbar = plotly.subplots.make_subplots(rows=3, cols=2,vertical_spacing=0.05,
                                  column_widths=[.975,.025],
-                                 row_heights=[.7,.15,.15],
+                                 row_heights=[.74,.11,.15],
                                 specs=[[None, {}],
                                [{"colspan": 2}, {}],
                                 [{'colspan':2}, None]])
@@ -341,7 +438,9 @@ def get_figure(data, indices):
 	
 	bar = go.Heatmap(z=base_values_, colorscale=colorscale,text=hover_values_,
 									 hoverinfo ='text',
-									showscale=False
+									showscale=False,
+									zmin=0,
+									zmax=1
 									 )
 	
 	figbar.append_trace(bar, 2, 1)
@@ -349,8 +448,8 @@ def get_figure(data, indices):
                              showlegend=False
                             ), 3,1)
 
-	if len(legend_col) > 0:
-		for values in legend_col:
+	if len(legend_col_) > 0:
+		for values in legend_col_:
 			sm=go.Scatter(x=[None], y=[None], mode='markers',
 					   marker=dict(size=10, color=values[1]),
 					   legendgroup='motifs', showlegend=True, name=values[0])
@@ -370,9 +469,14 @@ def get_figure(data, indices):
 		plot_bgcolor='white'
 	)
 
+	######################################### tree view ########################
+	'''
 	
+	'''
+
+
 	
-	return fig, figbar
+	return fig, figbar, tree_diagram(seq_names_, motif_species, sp__)
 
 
 
