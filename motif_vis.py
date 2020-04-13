@@ -255,12 +255,6 @@ cards = html.Div(
 			],
 			className="mb-4"
 		),
-		#dbc.Row(
-		#	[
-		#		dbc.Col(dcc.Graph(id='tree'))
-		#	],
-		#	className='mb-4'
-		#),
 		dbc.Row(
 			[
 				dbc.Col(dbc.Card(species_details, color="secondary", inverse=True)),
@@ -283,10 +277,7 @@ main_figure = html.Div([
 									config={'toImageButtonOptions':{'format':'svg'},
 											'displayModeBar':True
 											}
-										 ),
-						#dcc.Graph(id='tree',
-						#			config={'displayModeBar':False}
-						#		),
+										 )
 										],style={
 										'paddingRight':10,
 										'marginBottom':30
