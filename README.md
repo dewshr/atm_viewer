@@ -1,6 +1,6 @@
 # Motif TurnOver Visualization
 ------
-> **_NOTE:_** Everything will resized according to screen size of the device used to visualize, better visualization in larger screen.
+> **_NOTE:_** Everything will be resized according to screen size of the device used to visualize, better visualization in larger screen.
 ------
 This program is mainly designed to visualize the motif turnover events provided the **Multiple Alignment Format(MAF)** file. It will extract the sequences from block alignments from all the species, generating a single line sequence file which will be used for the visualization. It will also generate another file, which will be used to run fimo from meme to scan for the transcription factors (TF) selected by user. And based on the position of found motif, the sequences will be highlighted by specific color for specific TF. The user will have flexibility to choose how many TFs you want to find and how many species you want to view at a time. The program will also support the alignment file in **clustal format** and **fasta format**. If **fasta format**, make sure there is only one fasta sequence in the file. You can provide multiple fasta sequence in one file, but the length of sequence has to be the same.
 
