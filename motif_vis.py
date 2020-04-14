@@ -40,7 +40,7 @@ if not os.path.exists(args.dir):
 
 if args.input == None:
 	logger.info('using default example')
-	extract_seq_from_maf(script_path+'/example/example.maf', args.dir)
+	extract_seq_from_maf(script_path+'/example_files/example.maf', args.dir)
 	aln = AlignIO.read(os.path.join(args.dir,'temp_aln.fa'),'fasta')
 	#parser.print_help()
 	#sys.exit()
