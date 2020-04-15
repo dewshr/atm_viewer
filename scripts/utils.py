@@ -15,7 +15,7 @@ from Bio import AlignIO
 from Bio.Seq import Seq
 from loguru import logger
 
-#path = '/Users/dshrestha/Downloads/motif_turnover_visualization/'
+
 
 data_path = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 #print(script_path)
@@ -123,8 +123,7 @@ def run_fimo(file, pwm, dir):
 
 
 ############################## Process the fimo output to generate the list of found TFs: fimo_ids and motif sequence associated with it (fimo_list)###########		
-####### fimo_ids = ['MA0139.1', 'MA1573.1']
-####### fimo_list = [['CTTTGGGAGCTGCACTCCC', 'MA1573.1'], ['AGGACTGAATTTCCCACTT', 'MA1573.1'], ['AGGCCGCCAGGGGAGGCAG', 'MA0139.1']]
+
 @logger.catch
 def process_fimo(fimo_file):
 	logger.info('generating fimoids and fimolist')
@@ -166,7 +165,7 @@ def motif_color(nucleotide_bases,motif_details, base_values, hover_data):
 		print(n)
 		color_tracker = {}
 		for motif,val in motif_details.items():
-			iter = re.finditer(r"{}".format(motif), ''.join(nucleotide_bases[n])) # searching for the motif
+			iter = re.finditer(r"{}".format('-*'.join(list(motif))), ''.join(nucleotide_bases[n])) # searching for the motif
 			indices = [[m.start(0),m.end(0)] for m in iter] # stores indices for the searched motif if found
 			#logger.info(val['mname'])
 			#logger.info(indices)
@@ -469,10 +468,6 @@ def get_figure(data, indices):
 		plot_bgcolor='white'
 	)
 
-	######################################### tree view ########################
-	'''
-	
-	'''
 
 
 	
