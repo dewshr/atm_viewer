@@ -29,14 +29,14 @@ header ='MEME version 4\n\nALPHABET= ACGT\n\nstrands: + -\n\nBackground letter f
 
 
 #reading in dictionary of tf_id, tf_name and pwm
-logger.info('loading jasper_dict from jasper_2020_core_vertebrates_insects_non-redundant_pfms_meme.json')
+#logger.info('loading jasper_dict from jasper_2020_core_vertebrates_insects_non-redundant_pfms_meme.json')
 with open(data_path+'/data/jasper_2020_core_vertebrates_insects_non-redundant_pfms_meme.json') as f:
 	jasper_dict = json.load(f)
 
 
 
 #reading in json file which contains species annotation
-logger.info('loading dictionary for species annotation')
+#logger.info('loading dictionary for species annotation')
 with open(data_path+'/data/species_annotation.json') as f:
 	species_dict = json.load(f)
 
