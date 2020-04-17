@@ -62,8 +62,24 @@ The multi species alignment files can be downloaded from [here](http://hgdownloa
 <br/>
 
 ## 3) Running the program
+To see all the parameter available you can run `python motif_vis.py -h`, which will give following details:
+```
+usage: motif_vis.py [-h] [-i INPUT] [-m MOTIF] [-d DIR] [-l LOAD]
+                    [-f {maf,clustal,fasta}]
 
-The program has 3 parameters:
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        multiple alignment format file for visualization
+  -m MOTIF, --motif MOTIF
+                        user defined motif, must be in meme format
+  -d DIR, --dir DIR     folder name for the temporary files generated during
+                        the process
+  -l LOAD, --load LOAD  automatically opens browser if value is true
+  -f {maf,clustal,fasta}, --format {maf,clustal,fasta}
+                        format of the alignment file
+```
+The program has 5 parameters:
 - **input** : takes the input file in maf format, if nothing is provided it will run the example 
 <br/>
 
