@@ -23,6 +23,7 @@ from dash.exceptions import PreventUpdate
 ############################################### initial arguments ##############################
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', default=None, help='multiple alignment format file for visualization')
+parser.add_argument('-m','--motif', default=None, help='user defined motif, must be in meme format')
 parser.add_argument('-d','--dir', default='motif_vis_temp_files', help='folder name for the temporary files generated during the process')
 parser.add_argument('-l','--load', default = True, help='automatically opens browser if value is true')
 parser.add_argument('-f','--format', default='maf', choices=['maf','clustal', 'fasta'],help='format of the alignment file')
@@ -61,7 +62,17 @@ else:
 		sys.exit()
 
 
-			
+# checks if user has provided own motif or not, it has to be in meme format
+if args.motif == None:
+	motif_shown = ['MA0139.1']
+else:
+	motif_shown=[]
+	custom_motif = open(args.motif).read().split('MOTIF')
+	for n in range(1, len(custom_motif)):
+		data = custom_motif[n].split('\n')[0].split()
+		key = data[0]
+		jasper_dict[key]= {'motif_name':data[1], 'species':'c', 'pwm':'MOTIF'+custom_motif[n]}
+		motif_shown.append(key)
 
 #creating lists for tf and species for dash dropdown options
 motif_options = [{'label':'{} ({})'.format(jasper_dict[key]['motif_name'],jasper_dict[key]['species'] ), 'value':key} for key,value in jasper_dict.items()]
@@ -138,7 +149,7 @@ dropdown = html.Div([
 					 dcc.Dropdown(id='motif_id',
 								options=motif_options,
 								multi=True,
-								value=['MA0139.1'],
+								value= motif_shown,
 								 style={'marginTop':5,
 									   'paddingTop':5,
 									   'paddingBottom':5,
