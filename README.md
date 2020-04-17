@@ -67,6 +67,9 @@ The program has 3 parameters:
 - **input** : takes the input file in maf format, if nothing is provided it will run the example 
 <br/>
 
+- **motif** : takes the custom motif file from user, if you don't need to provide your own motif, you can ignore this parameter. The custom motif file has to be in meme format. You can look at the sample in example_files folder. For each motif, the line above Position Weight Matrix (PWM) has to start with MOTIF followed by motif id (such as M1, M2,..) and then motif name. [click here for example](data/images/pwm_example.png)
+<br/>
+
 - **dir**  : directory for the temporary files generated while running the program, if nothing is provided, it will create a default directory named *motif_vis_temp_files*
 <br/>
 
@@ -78,7 +81,7 @@ The program has 3 parameters:
 Here is the example of the syntax:
 
 ```
-python motif_vis.py -i example/example.maf -d motif_vis_temp_files -l True -f maf
+python motif_vis.py -i example_files/example.maf -d motif_vis_temp_files -l True -f maf
 OR
 python motif_vis.py
 
