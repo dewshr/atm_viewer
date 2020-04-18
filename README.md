@@ -68,14 +68,16 @@ usage: motif_vis.py [-h] [-i INPUT] [-m MOTIF] [-d DIR] [-l LOAD]
                     [-f {maf,clustal,fasta}]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        multiple alignment format file for visualization
-  -m MOTIF, --motif MOTIF
-                        user defined motif, must be in meme format
-  -d DIR, --dir DIR     folder name for the temporary files generated during
-                        the process
-  -l LOAD, --load LOAD  automatically opens browser if value is true
+  -h, --help                show this help message and exit
+  -i INPUT, --input INPUT   multiple alignment format file for visualization
+  
+  -m MOTIF, --motif MOTIF   user defined motif, must be in meme format
+  
+  -d DIR, --dir DIR         folder name for the temporary files generated during
+                            the process
+                            
+  -l LOAD, --load LOAD      automatically opens browser if value is true
+  
   -f {maf,clustal,fasta}, --format {maf,clustal,fasta}
                         format of the alignment file
 ```
