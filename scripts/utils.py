@@ -63,11 +63,11 @@ def extract_seq_from_maf(maf_file, dir):
 			if species not in maf_aln.keys():
 				maf_aln[species] ={'start':[start], 'stop':[stop],'strand':[strand],'seq':seq}
 				#print(maf_aln)
-				
-			maf_aln[species]['start'] = maf_aln[species]['start'] + [start]
-			maf_aln[species]['stop'] = maf_aln[species]['stop'] + [stop]
-			maf_aln[species]['strand'] = maf_aln[species]['strand'] + [strand]
-			maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
+			else:	
+				maf_aln[species]['start'] = maf_aln[species]['start'] + [start]
+				maf_aln[species]['stop'] = maf_aln[species]['stop'] + [stop]
+				maf_aln[species]['strand'] = maf_aln[species]['strand'] + [strand]
+				maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
 
 
 	logger.info('creating input file for running fimo: fimo_input.fa and alignment file: temp_aln.fa for visualization')
