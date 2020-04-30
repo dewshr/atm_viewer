@@ -46,38 +46,38 @@ this function takes the multiple alignment format file which contains the alignm
 and generates files with combined sequences from different blocks. It generates two files: one alignment (temp_aln.fa) file 
 with dashes and another without dashes (fimo_input.fa) that is used to run fimo to find the motifs.
 '''
-@logger.catch
-def extract_seq_from_maf2(maf_file, dir):
-	maf_file_data = open(maf_file)
-	maf_aln={}
-	for line in maf_file_data:
-		if line.startswith('s') and 'scaffold' not in line:
-			data = line.split()
-			species = data[1]
-			seq= data[-1].replace('\n','')
-			length= len(seq)
-			start = int(data[2])
-			stop = start + int(data[3])
-			strand = data[4]
-			#print(start)
-			if species not in maf_aln.keys():
-				maf_aln[species] ={'start':[start], 'stop':[stop],'strand':[strand],'seq':seq}
-				#print(maf_aln)
-			else:	
-				maf_aln[species]['start'] = maf_aln[species]['start'] + [start]
-				maf_aln[species]['stop'] = maf_aln[species]['stop'] + [stop]
-				maf_aln[species]['strand'] = maf_aln[species]['strand'] + [strand]
-				maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
-
-
-	logger.info('creating input file for running fimo: fimo_input.fa and alignment file: temp_aln.fa for visualization')
-	fimo_input = open(os.path.join(dir, 'fimo_input.fa'),'w')
-	with open(os.path.join(dir ,'temp_aln.fa'),'w') as f:
-		for key, value in maf_aln.items():
-			f.write('>{}.{}:{}.{}\n{}\n'.format(key, min(value['start']), max(value['stop']), set(value['strand']), value['seq']))
-			fimo_input.write('>{}.{}:{}.{}\n{}\n'.format(key, min(value['start']), max(value['stop']), set(value['strand']), value['seq'].replace('-','')))
-	
-	fimo_input.close()
+#@logger.catch
+#def extract_seq_from_maf2(maf_file, dir):
+#	maf_file_data = open(maf_file)
+#	maf_aln={}
+#	for line in maf_file_data:
+#		if line.startswith('s') and 'scaffold' not in line:
+#			data = line.split()
+#			species = data[1]
+#			seq= data[-1].replace('\n','')
+#			length= len(seq)
+#			start = int(data[2])
+#			stop = start + int(data[3])
+#			strand = data[4]
+#			#print(start)
+#			if species not in maf_aln.keys():
+#				maf_aln[species] ={'start':[start], 'stop':[stop],'strand':[strand],'seq':seq}
+#				#print(maf_aln)
+#			else:	
+#				maf_aln[species]['start'] = maf_aln[species]['start'] + [start]
+#				maf_aln[species]['stop'] = maf_aln[species]['stop'] + [stop]
+#				maf_aln[species]['strand'] = maf_aln[species]['strand'] + [strand]
+#				maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
+#
+#
+#	logger.info('creating input file for running fimo: fimo_input.fa and alignment file: temp_aln.fa for visualization')
+#	fimo_input = open(os.path.join(dir, 'fimo_input.fa'),'w')
+#	with open(os.path.join(dir ,'temp_aln.fa'),'w') as f:
+#		for key, value in maf_aln.items():
+#			f.write('>{}.{}:{}.{}\n{}\n'.format(key, min(value['start']), max(value['stop']), set(value['strand']), value['seq']))
+#			fimo_input.write('>{}.{}:{}.{}\n{}\n'.format(key, min(value['start']), max(value['stop']), set(value['strand']), value['seq'].replace('-','')))
+#	
+#	fimo_input.close()
 
 @logger.catch
 def extract_seq_from_maf(maf_file, dir):
