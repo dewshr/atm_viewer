@@ -117,7 +117,7 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 ################################## top header ########################################
-top_header= dbc.Row(dbc.Col(html.H1('Motif Turnover Visualization',
+top_header= dbc.Row(dbc.Col(html.H1('ATM Viewer',
 							style={'textAlign':'center',
 								   'marginTop':5,
 								   'marginBottom':10,
