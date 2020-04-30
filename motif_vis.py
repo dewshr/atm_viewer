@@ -211,7 +211,8 @@ heatmap_legend = html.Div([
 
 tree = html.Div([
 			dcc.Graph(id='tree',
-						config={'displayModeBar':True}
+						config={'toImageButtonOptions':{'format':'svg'},
+								'displayModeBar':True}
 								)
 	],style={
 			'paddingRight':0,
