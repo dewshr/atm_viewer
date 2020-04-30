@@ -1,4 +1,4 @@
-# Motif TurnOver Visualization
+# ATM Viewer: Alignment based Transcriptional fator binding Motif Viewer
 ------
 > **_NOTE:_** Everything will be resized according to screen size of the device used to visualize, better visualization in larger screen.
 ------
