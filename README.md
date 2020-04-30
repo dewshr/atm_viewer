@@ -163,7 +163,7 @@ In this figure below, there is overlap between three TFs (THAP11, CTCF and Zic2)
 <br/>
 
 - ### Example 2 (Complete Overlap)
-If there is complete overlap, then combined legend will be shown in the figure bar as shown below for TBX6 and TBX21
+If there is complete overlap, then combined legend will be shown in the figure bar as shown below for TBX6, TBX3 and TBX21
 ![example4](data/images/example4.png)
 
 
