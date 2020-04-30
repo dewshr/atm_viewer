@@ -47,7 +47,7 @@ and generates files with combined sequences from different blocks. It generates 
 with dashes and another without dashes (fimo_input.fa) that is used to run fimo to find the motifs.
 '''
 @logger.catch
-def extract_seq_from_maf(maf_file, dir):
+def extract_seq_from_maf2(maf_file, dir):
 	maf_file_data = open(maf_file)
 	maf_aln={}
 	for line in maf_file_data:
@@ -78,6 +78,73 @@ def extract_seq_from_maf(maf_file, dir):
 			fimo_input.write('>{}.{}:{}.{}\n{}\n'.format(key, min(value['start']), max(value['stop']), set(value['strand']), value['seq'].replace('-','')))
 	
 	fimo_input.close()
+
+@logger.catch
+def extract_seq_from_maf(maf_file, dir):
+	maf_ = open(maf_file,'r').read()
+	keys = list(set(re.findall(r'[s,e]\s(\w*.chr[\d]+)',maf_)))
+	#keys
+	maf = maf_.split('a score')
+
+	maf_aln={}
+
+	length = len(maf[1].split('\n')[1].split()[-1])
+	for species in keys:
+		#print(species)
+		try:
+			data = maf[1].split(species)[1].split('\n')[0].split()
+			start = int(data[0])
+			stop = start + int(data[1])
+			strand = data[2]
+			seq = data[4]
+			if len(seq) == 1:
+				seq = '-'*length
+				#print(len(seq))
+			
+			maf_aln[species] ={'start':[start], 'stop':[stop],'strand':[strand],'seq':seq}
+		except:
+			seq = '-'*length
+			#print(len(seq))
+			maf_aln[species] ={'start':[None], 'stop':[None],'strand':[None],'seq':seq}
+
+	for n in range(2, len(maf)):
+		length = len(maf[n].split('\n')[1].split()[-1])
+		#check.write('length,n_{},{},'.format(n, length))
+		#print(n)
+		for species in keys:
+			#print(species)
+			try:
+				data = maf[n].split(species+' ')[1].split('\n')[0].split()
+				start = int(data[0])
+				stop = start + int(data[1])
+				strand = data[2]
+				seq = data[4]
+				if len(seq) == 1:
+					seq = '-'*length
+					
+			except:
+				start = None
+				stop = None
+				strand = None
+				seq = '-'*length
+
+		#print(length, species, len(seq))
+			maf_aln[species]['start'] = maf_aln[species]['start'] + [start]
+			maf_aln[species]['stop'] = maf_aln[species]['stop'] + [stop]
+			maf_aln[species]['strand'] = maf_aln[species]['strand'] + [strand]
+			maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
+	
+	fimo_input = open(os.path.join(dir, 'fimo_input.fa'),'w')
+	with open(os.path.join(dir ,'temp_aln.fa'),'w') as f:
+		for key, value in maf_aln.items():
+			start = list(filter(None, value['start']))
+			stop = list(filter(None, value['stop']))
+			#strand =
+			f.write('>{}.{}:{}.{}\n{}\n'.format(key, min(start), max(stop), set(value['strand']), value['seq']))
+			fimo_input.write('>{}.{}:{}.{}\n{}\n'.format(key, min(start), max(stop), set(value['strand']), value['seq'].replace('-','')))
+	
+	fimo_input.close()
+
 
 ################### this function will be called if the file is in clustal alignment format ##########
 @logger.catch
