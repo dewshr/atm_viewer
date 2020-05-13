@@ -82,8 +82,10 @@ with dashes and another without dashes (fimo_input.fa) that is used to run fimo 
 @logger.catch
 def extract_seq_from_maf(maf_file, dir):
 	maf_ = open(maf_file,'r').read()
-	keys = list(set(re.findall(r'[s,e]\s(\w*.chr[\d]+)',maf_)))
-	#keys
+	keys = list(set(re.findall(r'[s,e]\s(\w*.chr[\d]+ )',maf_)))
+	keys.sort()
+	logger.info('all found species-----')
+	logger.info(keys)
 	maf = maf_.split('a score')
 
 	maf_aln={}
@@ -99,6 +101,8 @@ def extract_seq_from_maf(maf_file, dir):
 			seq = data[4]
 			if len(seq) == 1:
 				seq = '-'*length
+			else:
+				seq = seq.upper()
 				#print(len(seq))
 			
 			maf_aln[species] ={'start':[start], 'stop':[stop],'strand':[strand],'seq':seq}
@@ -114,13 +118,15 @@ def extract_seq_from_maf(maf_file, dir):
 		for species in keys:
 			#print(species)
 			try:
-				data = maf[n].split(species+' ')[1].split('\n')[0].split()
+				data = maf[n].split(species)[1].split('\n')[0].split()
 				start = int(data[0])
 				stop = start + int(data[1])
 				strand = data[2]
 				seq = data[4]
 				if len(seq) == 1:
 					seq = '-'*length
+				else:
+					seq = seq.upper()
 					
 			except:
 				start = None
@@ -135,8 +141,11 @@ def extract_seq_from_maf(maf_file, dir):
 			maf_aln[species]['seq'] = maf_aln[species]['seq']+ seq
 	
 	fimo_input = open(os.path.join(dir, 'fimo_input.fa'),'w')
+	#logger.info('maf alignment-----')
+	#logger.info(maf_aln)
 	with open(os.path.join(dir ,'temp_aln.fa'),'w') as f:
 		for key, value in maf_aln.items():
+			#logger.info(key)
 			start = list(filter(None, value['start']))
 			stop = list(filter(None, value['stop']))
 			#strand =
@@ -178,7 +187,7 @@ def extract_pwm(tf_list, dir):
 @logger.catch
 def run_fimo(file, pwm, dir):
 
-	if os.system('fimo -oc {} {} {}'.format(os.path.join(dir, 'fimo_output'), pwm, file)) ==0:
+	if os.system('fimo -oc {} -thresh 1e-4 {} {}'.format(os.path.join(dir, 'fimo_output'), pwm, file)) ==0:
 		logger.info('running fimo completed')
 		return 0, os.path.join(dir, 'fimo_output/fimo.tsv')
 	else:
@@ -289,7 +298,7 @@ def get_intermediate_data(fimo_ids, fimo_list, base_values, hover_data, nucleoti
 	id_color = {fimo_ids[i]:colors_[i] for i in range(len(fimo_ids))}
 	
 	if len(fimo_ids) ==0:
-		colorscale =[[0,'whitesmoke']]
+		colorscale =[[0,'whitesmoke'],[1,'whitesmoke']]
 		legend_col_val={}
 		legend_col=[]
 
@@ -356,26 +365,94 @@ def get_key(val):
 ############################# getting overall view for the found TF and selected species #####################
 #sp_names seq_names_ get_key(value)
 @logger.catch
-def tree_diagram(seq_names_, motif_species, sp__):
+def tree_diagram(seq_names_, motif_species, sp__, tf_selected):
+	logger.info('testing')
+	logger.info(seq_names_)
+	logger.info(motif_species)
+	logger.info(sp__)
+	logger.info(tf_selected)
 	t=0
 	#sp__ = [get_key(x) for x in seq_names_]
 	lp = len(sp__)
 	tree = go.Figure()
+	y_val= np.arange(0, lp, 1)
 	annotations=[]
-	for key, value in motif_species.items():
+	for tf in tf_selected:
+		logger.info('------tf-----')
+		logger.info(jasper_dict[tf]['motif_name'])
 		x=[t]*lp
-		y_val= np.arange(0, lp, 1)
-		color=['tomato' if x in value.lower() else 'grey' for x in sp__]
-		a1 = dict(x=t,y=y_val[-1]+1,xref='x',yref='y',
-            text= key,#'<font size="10"><b>'+key+'</b></font>',
-            showarrow=False,
-            align='center',
-            textangle=-90,
-            font=dict(family='Courier New',
-            size=15)
-            )
-		annotations.append(a1)
-		tree.add_trace(go.Scatter(x=x, y=y_val, 
+		if len(motif_species) !=0:
+			logger.info('inside try')
+
+			tf_name = jasper_dict[tf]['motif_name']
+			if tf_name in motif_species.keys():
+				color=['tomato' if x in motif_species[tf_name].lower() else 'grey' for x in sp__]
+			else:
+				color = ['grey']*lp
+
+			a1 = dict(x=t,y=y_val[-1]+1,xref='x',yref='y',
+            		text= tf_name,
+            		showarrow=False,
+            		align='center',
+            		textangle=-90,
+            		font=dict(family='Courier New',
+            		size=15)
+            		)
+			annotations.append(a1)
+			logger.info(y_val)
+			tree.add_trace(go.Scatter(x=x, y=y_val, 
+                        mode='markers',
+                        hoverinfo='none',
+                        marker=dict(size=15,
+                                color=color   
+                                ))
+					)
+			'''
+			for key, value in motif_species.items():
+				logger.info('----motif_species key')
+				logger.info(key)
+				logger.info(y_val)
+				if key == jasper_dict[tf]['motif_name']:
+					logger.info('inside-----')
+					logger.info(key)
+					color=['tomato' if x in value.lower() else 'grey' for x in sp__]
+				else:
+					color = ['grey']*lp
+				logger.info(color)
+				a1 = dict(x=t,y=y_val[-1]+1,xref='x',yref='y',
+            		text= jasper_dict[tf]['motif_name'],#'<font size="10"><b>'+key+'</b></font>',
+            		showarrow=False,
+            		align='center',
+            		textangle=-90,
+            		font=dict(family='Courier New',
+            		size=15)
+            		)
+				annotations.append(a1)
+				logger.info(y_val)
+				tree.add_trace(go.Scatter(x=x, y=y_val, 
+                        mode='markers',
+                        hoverinfo='none',
+                        marker=dict(size=15,
+                                color=color   
+                                ))
+					)
+				#break
+				'''
+		else:
+			logger.info('inside except')
+			color =['grey']*lp
+			logger.info(color)
+			a1 = dict(x=t,y=y_val[-1]+1,xref='x',yref='y',
+            		text= jasper_dict[tf]['motif_name'],#'<font size="10"><b>'+key+'</b></font>',
+            		showarrow=False,
+            		align='center',
+            		textangle=-90,
+            		font=dict(family='Courier New',
+            		size=15)
+            		)
+			annotations.append(a1)
+			logger.info(y_val)
+			tree.add_trace(go.Scatter(x=x, y=y_val, 
                         mode='markers',
                         hoverinfo='none',
                         marker=dict(size=15,
@@ -400,6 +477,7 @@ def tree_diagram(seq_names_, motif_species, sp__):
 	return tree
 
 
+
 ######################################### generating alignment plot and figure bar with legend ########################
 @logger.catch
 def get_figure(data, indices):
@@ -412,6 +490,7 @@ def get_figure(data, indices):
 	colorscale = data[4]['colorscale']
 	legend_col = data[5]['legend_col']
 	motif_species = data[6]['motif_species']
+	tf_selected = data[7]['tf_selected']
 
 	seq_len = len(fig_nucleotide_bases[0])
 
@@ -538,7 +617,7 @@ def get_figure(data, indices):
 
 
 	
-	return fig, figbar, tree_diagram(seq_names_, motif_species, sp__)
+	return fig, figbar, tree_diagram(seq_names_, motif_species, sp__, tf_selected)
 
 
 
