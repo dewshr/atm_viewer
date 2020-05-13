@@ -64,7 +64,7 @@ else:
 
 # checks if user has provided own motif or not, it has to be in meme format
 if args.motif == None:
-	motif_shown = ['MA0139.1']
+	motif_shown = ['MA0139.1'] #, 'MA0035.4','MA0138.2']
 else:
 	motif_shown=[]
 	custom_motif = open(args.motif).read().split('MOTIF')
@@ -357,7 +357,7 @@ def tf_selected(n_clicks, value):
 			#logger.info('\nhover_data \n {}', hover_data)
 			#logger.info('colorscale\n{}',colorscale)
 			#logger.info('legend_col\n{}', legend_col)
-			data = [{'base_values':base_color_values}, {'hover_values':hover_values},{'nucleotide_bases':nucleotide_bases},{'sp_names':sp_names}, {'colorscale':colorscale},{'legend_col':legend_col}, {'motif_species':motif_species}]
+			data = [{'base_values':base_color_values}, {'hover_values':hover_values},{'nucleotide_bases':nucleotide_bases},{'sp_names':sp_names}, {'colorscale':colorscale},{'legend_col':legend_col}, {'motif_species':motif_species},{'tf_selected':value}]
 	else:
 		tf_found_ =[None]
 		alert = dbc.Alert("Press submit to run fimo", color="info")
