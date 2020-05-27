@@ -185,9 +185,9 @@ def extract_pwm(tf_list, dir):
 
 ############################### run fimo for the selected TFs ##########################
 @logger.catch
-def run_fimo(file, pwm, dir):
+def run_fimo(file, pwm, dir, thresh):
 
-	if os.system('fimo -oc {} -thresh 1e-4 {} {}'.format(os.path.join(dir, 'fimo_output'), pwm, file)) ==0:
+	if os.system('fimo -oc {} -thresh {} {} {}'.format(os.path.join(dir, 'fimo_output'), thresh, pwm, file)) ==0:
 		logger.info('running fimo completed')
 		return 0, os.path.join(dir, 'fimo_output/fimo.tsv')
 	else:

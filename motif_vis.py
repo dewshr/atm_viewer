@@ -27,6 +27,7 @@ parser.add_argument('-m','--motif', default=None, help='user defined motif, must
 parser.add_argument('-d','--dir', default='motif_vis_temp_files', help='folder name for the temporary files generated during the process')
 parser.add_argument('-l','--load', default = True, help='automatically opens browser if value is true')
 parser.add_argument('-f','--format', default='maf', choices=['maf','clustal', 'fasta'],help='format of the alignment file')
+parser.add_argument('-t','--thresh', default='1e-4', help='default threshold value is 1e-4 for fimo scan')
 
 args = parser.parse_args()
 
@@ -336,7 +337,7 @@ def tf_selected(n_clicks, value):
 		alert =  dbc.Alert("Fimo run completed", color="success")
 		logger.info('running fimo')
 		pwm_file = extract_pwm(value, args.dir)
-		os_code, fimo_file = run_fimo(os.path.join(args.dir,'fimo_input.fa'), pwm_file, args.dir)
+		os_code, fimo_file = run_fimo(os.path.join(args.dir,'fimo_input.fa'), pwm_file, args.dir, args.thresh)
 
 		if os_code == 1:
 			logger.info('Something went wrong while running fimo')
