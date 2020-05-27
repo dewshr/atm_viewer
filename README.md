@@ -1,4 +1,4 @@
-# ATM Viewer: Alignment based Transcriptional factor binding Motif Viewer
+# ATM Viewer: Alignment-based Transcription factor binding Motif Viewer
 ------
 > **_NOTE:_** Everything will be resized according to screen size of the device used to visualize, better visualization in larger screen.
 ------
@@ -68,33 +68,38 @@ usage: motif_vis.py [-h] [-i INPUT] [-m MOTIF] [-d DIR] [-l LOAD]
                     [-f {maf,clustal,fasta}]
 
 optional arguments:
-  -h, --help                show this help message and exit
-  -i INPUT, --input INPUT   multiple alignment format file for visualization
+  -h, --help                  show this help message and exit
+  -i INPUT, --input INPUT     multiple alignment format file for visualization
   
-  -m MOTIF, --motif MOTIF   user defined motif, must be in meme format
+  -m MOTIF, --motif MOTIF     user defined motif, must be in meme format
   
-  -d DIR, --dir DIR         folder name for the temporary files generated during
-                            the process
+  -d DIR, --dir DIR           folder name for the temporary files generated during
+                              the process
                             
-  -l LOAD, --load LOAD      automatically opens browser if value is true
+  -l LOAD, --load LOAD        automatically opens browser if value is true
   
   -f {maf,clustal,fasta}, --format {maf,clustal,fasta}
                         format of the alignment file
+                        
+  -t THRESH, --thresh THRESH  default threshold value is 1e-4 for fimo scan
 ```
 The program has 5 parameters:
-- **input** : takes the input file in maf format, if nothing is provided it will run the example 
+- **input** : takes the input file in maf format, if nothing is provided it will run the example.
 <br/>
 
 - **motif** : takes the custom motif file from user, if you don't need to provide your own motif, you can ignore this parameter. The custom motif file has to be in meme format. You can look at the sample in example_files folder. For each motif, the line above Position Weight Matrix (PWM) has to start with MOTIF followed by motif id (such as M1, M2,..) and then motif name. [click here for example](data/images/pwm_example.png)
 <br/>
 
-- **dir**  : directory for the temporary files generated while running the program, if nothing is provided, it will create a default directory named *motif_vis_temp_files*
+- **dir**  : directory for the temporary files generated while running the program, if nothing is provided, it will create a default directory named *motif_vis_temp_files*.
 <br/>
 
-- **load**  : default value is True, which means it it automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar
+- **load**  : default value is True, which means it it automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar.
 <br/>
 
-- **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal or fasta format, you can specify by passing parameter 'clustal' as `-f clustal` or 'fasta' as `-f fasta`
+- **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal or fasta format, you can specify by passing parameter 'clustal' as `-f clustal` or 'fasta' as `-f fasta`.
+<br/>
+
+-**thresh**: threshold value for FIMO to scan the motifs. Default value is set to 1e-4.
 
 Here is the example of the syntax:
 
