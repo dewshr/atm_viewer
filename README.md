@@ -93,7 +93,7 @@ The program has 5 parameters:
 - **dir**  : directory for the temporary files generated while running the program, if nothing is provided, it will create a default directory named *motif_vis_temp_files*.
 <br/>
 
-- **load**  : default value is True, which means it it automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar.
+- **load**  : default value is True, which means it will automatically load the browser, if set to False, user would have to copy and paste the address in the browser bar.
 <br/>
 
 - **format**: defualt value is multiple alignment format (MAF), but if you have alignment file in clustal or fasta format, you can specify by passing parameter 'clustal' as `-f clustal` or 'fasta' as `-f fasta`.
