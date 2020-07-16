@@ -287,7 +287,7 @@ description = html.Div(cards)
 ################################################# main alignment file ###############################
 main_figure = html.Div([
 						dcc.Graph(id='motif_plot',
-									config={'toImageButtonOptions':{'format':'svg'},
+									config={'toImageButtonOptions':{'format':'svg', 'height':500,'width':1100, 'filename':'motif'},
 											'displayModeBar':True
 											}
 										 )
