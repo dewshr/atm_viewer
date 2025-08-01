@@ -390,9 +390,9 @@ def create_motif_plot(species_selected, data):
 if __name__ == '__main__':
 	if args.load == True:
 		webbrowser.open_new('http://127.0.0.1:8051')
-		app.run_server(debug=True, port=8051)
+		app.run(debug=True, port=8051)
 	else:
-		app.run_server(debug=True, port=8051)
+		app.run(debug=True, port=8051)
 
 
 

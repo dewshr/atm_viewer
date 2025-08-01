@@ -9,6 +9,7 @@ import os
 import sys
 import plotly
 import plotly.graph_objs as go
+from plotly.subplots import make_subplots
 import json
 import re
 from Bio import AlignIO
@@ -573,7 +574,7 @@ def get_figure(data, indices):
 	fig = dict(data=data, layout=layout)
 	
 	########################################## FIGURE BAR ##################################
-	figbar = plotly.subplots.make_subplots(rows=3, cols=2,vertical_spacing=0.05,
+	figbar = make_subplots(rows=3, cols=2,vertical_spacing=0.05,
                                  column_widths=[.975,.025],
                                  row_heights=[.74,.11,.15],
                                 specs=[[None, {}],
